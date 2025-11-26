@@ -89,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   useBodyScrollLock(isMobile && isSidebarOpen);
 
   return (
-    <div className={`fixed top-0 left-0 h-full    z-30 transition-all duration-30 ease-in-out
+    <div className={`fixed top-0 left-0 h-full z-30 transition-all duration-30 ease-in-out
     w-full sm:w-80 md:relative md:translate-x-0
     ${desktopWidthClass} 
     bg-white dark:bg-gray-800 shadow-xl md:shadow-none border-r border-gray-200 dark:border-gray-700
