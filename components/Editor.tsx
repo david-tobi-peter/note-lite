@@ -78,7 +78,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   );
 }
 
-export const Editor: React.FC<Omit<EditorProps, "activeNote">> = ({ note, onUpdateNote, onDeleteNote }) => {
+export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDeleteNote">> = ({ note, onUpdateNote, onDeleteNote }) => {
   const [content, setContent] = useState(note.content);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState(note.updatedAt);

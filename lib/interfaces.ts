@@ -43,3 +43,20 @@ export interface NoteListItemProps {
   onClick: (id: string) => void;
   isCollapsed: boolean;
 }
+
+export interface UseNotesResult {
+  notes: Note[];
+  activeNote: Note | undefined;
+  activeNoteId: string | null;
+  setActiveNoteId: (id: string | null) => void;
+  handleNewNote: () => void;
+  handleUpdateNote: (updates: Partial<Note>) => void;
+  handleDeleteNote: (id: string) => void;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
+  isDesktopCollapsed: boolean;
+  handleToggleCollapse: () => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  filteredNotes: Note[];
+}
