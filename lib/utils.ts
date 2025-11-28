@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import { Note } from "./interfaces";
 
 export interface DebouncedFunction<T extends (...args: any[]) => any> {
@@ -51,7 +52,7 @@ export const LOCAL_STORAGE_KEY = "notion-lite-notes";
 export const COLLAPSE_KEY = "isDesktopCollapsed";
 
 export const createNewNote = (): Note => ({
-  id: crypto.randomUUID(),
+  id: v4(),
   title: "Untitled Note",
   content: "# New Note\nStart typing here! Use Markdown for formatting.\n\n- Bullet point 1\n- Bullet point 2\n\n**Bold Text Example**",
   createdAt: Date.now().toString(),

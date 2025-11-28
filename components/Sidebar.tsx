@@ -3,7 +3,7 @@ import { Menu, Plus, Search, ChevronsLeft, ChevronsRight, X } from "lucide-react
 import { NoteListItemProps, SidebarProps } from "@/lib";
 import { useBodyScrollLock, useMediaQuery } from "@/hooks";
 
-type PickedSidebarFields = Pick<SidebarProps, "searchTerm" | "setSearchTerm"| "onNewNote" | "isDesktopCollapsed" | "handleToggleCollapse">
+type PickedSidebarFields = Pick<SidebarProps, "searchTerm" | "setSearchTerm" | "onNewNote" | "isDesktopCollapsed" | "handleToggleCollapse">
 
 const SidebarHeader: React.FC<PickedSidebarFields> = ({
   searchTerm,
@@ -17,17 +17,17 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
       <h1 className={`text-xl font-bold transition-opacity duration-300 dark:text-white ${isDesktopCollapsed ? "opacity-0 hidden md:block" : ""}`}>
         Notion-Lite
       </h1>
-      
-      <button 
+
+      <button
         onClick={handleToggleCollapse}
         className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark: hover:bg-gray-700 transition-colors"
         aria-label="Toggle Sidebar"
       >
         {
-          isDesktopCollapsed ? 
-            (<ChevronsRight className="w-5 h-5"/>) :
-            (<ChevronsLeft className="w-5 h-5"/>)
-          
+          isDesktopCollapsed ?
+            (<ChevronsRight className="w-5 h-5" />) :
+            (<ChevronsLeft className="w-5 h-5" />)
+
         }
       </button>
     </div>
@@ -35,11 +35,12 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
     <div className={`p-3 border-b border-gray-200 dark:border-gray-700 tranition-opacity duration-300 ${isDesktopCollapsed ? "hidden" : "block"}`}>
       <div className="relative mb-3">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-        <input 
+        <input
+          id="search-note"
           type="text"
           placeholder="Search notes..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} 
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-4 py-2 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors dark:text-white"
         />
       </div>
@@ -47,7 +48,7 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
         onClick={onNewNote}
         className="flex items-center justify-center w-full py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-md active:shadow-none"
       >
-        <Plus className="w-4 h-4 mr-2"/>
+        <Plus className="w-4 h-4 mr-2" />
       </button>
     </div>
   </>
@@ -57,9 +58,9 @@ const NoteListItem: React.FC<NoteListItemProps> = React.memo(({ note, isActive, 
   <div
     className={`flex items-center p-3 cursor-pointer rounded-lg mx-2 my-1 transition-colors 
     ${isActive
-      ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold"
-      : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
-    }
+        ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold"
+        : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+      }
     ${isCollapsed ? "justify-center" : "justify-start"}`}
     onClick={() => onClick(note.id)}
   >
@@ -96,40 +97,40 @@ export const Sidebar: React.FC<SidebarProps> = ({
     ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
 
       <div className="flex flex-col h-full">
-          {isMobile && isSidebarOpen && (
-            <div className="flex justify-end p-2 md:hidden">
-              <button
-                onClick={() => setIsSidebarOpen(false)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
-                aria-label="Close Sidebar"
-              >
-                <X className="w-5 h-5"/>
-              </button>
-            </div>
-          )}
+        {isMobile && isSidebarOpen && (
+          <div className="flex justify-end p-2 md:hidden">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+              aria-label="Close Sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        )}
 
-          {(!isDesktopCollapsed || isMobile) && (
-            <SidebarHeader
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              onNewNote={() => {
-                onNewNote();
-                if (isMobile) setIsSidebarOpen(false);
-              }}
-              isDesktopCollapsed={isDesktopCollapsed}
-              handleToggleCollapse={handleToggleCollapse}
-            />
-          )}
+        {(!isDesktopCollapsed || isMobile) && (
+          <SidebarHeader
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onNewNote={() => {
+              onNewNote();
+              if (isMobile) setIsSidebarOpen(false);
+            }}
+            isDesktopCollapsed={isDesktopCollapsed}
+            handleToggleCollapse={handleToggleCollapse}
+          />
+        )}
 
-          {isDesktopCollapsed && !isMobile && (
-            <div className="p-3 flex justify-end items-center border-b border-gray-200 dark:border-gray-700">
-              <button
-                  onClick={handleToggleCollapse}
-                  className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  aria-label="Toggle Sidebar"
-              >
-                  <ChevronsRight className="w-5 h-5" />
-              </button>
+        {isDesktopCollapsed && !isMobile && (
+          <div className="p-3 flex justify-end items-center border-b border-gray-200 dark:border-gray-700">
+            <button
+              onClick={handleToggleCollapse}
+              className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle Sidebar"
+            >
+              <ChevronsRight className="w-5 h-5" />
+            </button>
           </div>
         )}
 
@@ -140,7 +141,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </p>
           )}
           {notes.map((note) => (
-            <NoteListItem 
+            <NoteListItem
               key={note.id}
               note={note}
               isActive={note.id === activeNoteId}

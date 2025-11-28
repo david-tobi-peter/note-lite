@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Archive, Menu, Sparkles } from "lucide-react";
+import { Archive, Menu, Plus, Sparkles } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
 import { useNotes } from "@/hooks";
 
@@ -27,8 +27,17 @@ export default function Home() {
 
   if (notes.length === 0 && activeNoteId === null) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="text-xl font-medium dark:text-gray-300">Loading App...</div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 space-y-4">
+        <div className="text-xl font-medium dark:text-gray-300">Create Your First Note...</div>
+        <div className="text-xl font-medium dark:text-gray-300">
+          <button
+            onClick={handleNewNote}
+            className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center"
+            aria-label="Create Your First Note"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+          </button>
+        </div>
       </div>
     );
   }

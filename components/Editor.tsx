@@ -36,6 +36,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-10">
       <input
+        id="note-title"
         type="text"
         value={localTitle}
         onChange={handleTitleChange}
@@ -148,6 +149,7 @@ export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDel
       <div className="flex-1 p-4 md:p-8 overflow-y-auto">
         {isEditing ? (
           <textarea
+            id="note-editor"
             value={content}
             onChange={handleContentChange}
             onKeyDown={handleKeyDown as (e: React.KeyboardEvent<HTMLTextAreaElement>) => void}
