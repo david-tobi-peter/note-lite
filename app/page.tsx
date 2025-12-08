@@ -27,17 +27,36 @@ export default function Home() {
 
   if (notes.length === 0 && activeNoteId === null) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 space-y-4">
-        <div className="text-xl font-medium dark:text-gray-300">Create Your First Note...</div>
-        <div className="text-xl font-medium dark:text-gray-300">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+            Note-Lite
+          </h1>
+          <p className="text-lg text-gray-500 dark:text-gray-400">
+            Your clean, minimal note space.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-sm">
+          <div className="flex items-center space-x-2 text-xl font-semibold text-gray-700 dark:text-gray-200">
+            <Sparkles className="w-6 h-6 text-blue-500" />
+            <span>Create Your First Note</span>
+          </div>
+
           <button
             onClick={handleNewNote}
-            className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center"
+            className="px-8 py-3 text-base font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center transform hover:scale-105"
             aria-label="Create Your First Note"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-5 h-5 mr-2" />
+            Start Now
           </button>
+
+          <p className="text-sm text-gray-400 dark:text-gray-500">
+            Tip: Use <span className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded text-gray-800 dark:text-gray-200">Shift+N</span> to create a note instantly.
+          </p>
         </div>
+
       </div>
     );
   }
@@ -84,7 +103,7 @@ export default function Home() {
               onClick={handleNewNote}
               className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center"
             >
-              <Sparkles className="w-4 h-4 mr-2" /> Start Fresh Note (Cmd/Ctrl+N)
+              <Sparkles className="w-4 h-4 mr-2" /> Start Fresh Note (Shift+N)
             </button>
           </div>
         )}

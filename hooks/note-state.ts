@@ -93,14 +93,16 @@ export const useNotes = (): UseNotesResult => {
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "n") {
+      if (e.code === "KeyN" && e.shiftKey) {
         e.preventDefault();
+        e.stopPropagation();
         handleNewNote();
       }
     };
 
-    window.addEventListener("keydown", handleGlobalKeyDown);
-    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+    document.addEventListener("keydown", handleGlobalKeyDown, { capture: true });
+
+    return () => document.removeEventListener("keydown", handleGlobalKeyDown, { capture: true });
   }, [handleNewNote]);
 
   const activeNote = useMemo(() => notes.find((note) => note.id === activeNoteId), [notes, activeNoteId]);
