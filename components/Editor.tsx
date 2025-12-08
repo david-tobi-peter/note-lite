@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Trash2, Save, Eye, Pencil } from "lucide-react";
-import { EditorProps, Note } from "../lib/interfaces";
-import { debounce, renderMarkdown } from "@/lib";
+import { debounce, EditorProps, Note } from "@/lib";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface EditorTopBarProps extends Omit<EditorProps, "onUpdateNote" | "onDeleteNote" | "note"> {
   note: Note;
@@ -74,7 +75,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   );
 }
 
-export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDeleteNote">> = ({ note, onUpdateNote, onDeleteNote }) => {
+const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDeleteNote">> = ({ note, onUpdateNote, onDeleteNote }) => {
   const [content, setContent] = useState(note.content);
   const [isSaving, setIsSaving] = useState(false);
   const [_, setLastSavedAt] = useState(note.updatedAt);
@@ -128,8 +129,6 @@ export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDel
     }
   }, [content, onUpdateNote, debouncedSave, isEditing]);
 
-  const renderedContent = useMemo(() => renderMarkdown(content), [content]);
-
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <EditorTopBar
@@ -155,11 +154,62 @@ export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDel
           <div className="w-full h-full">
             <div
               className="prose dark:prose-invert max-w-none transition-all duration-300"
-              dangerouslySetInnerHTML={{ __html: renderedContent }}
-            />
+            >
+              <Markdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ node, ...props }) => (
+                    <h1
+                      className="text-3xl font-extrabold mb-4 pt-4 dark:text-white"
+                      {...props}
+                    />
+                  ),
+
+                  h2: ({ node, ...props }) => (
+                    <h2
+                      className="text-2xl font-semibold mt-6 mb-3 dark:text-white"
+                      {...props}
+                    />
+                  ),
+
+                  h3: ({ node, ...props }) => (
+                    <h3 className="text-xl font-medium mt-4 mb-2 dark:text-white" {...props} />
+                  ),
+
+                  h4: ({ node, ...props }) => (
+                    <h4 className="text-lg font-normal mt-3 mb-1 dark:text-white" {...props} />
+                  ),
+
+                  blockquote: ({ node, ...props }) => (
+                    <blockquote
+                      className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-gray-100 dark:bg-gray-800 italic text-gray-600 dark:text-gray-300"
+                      {...props}
+                    />
+                  ),
+
+                  ul: ({ node, ...props }) => (
+                    <ul
+                      className="list-inside space-y-2 pl-4 text-gray-700 dark:text-gray-300"
+                      {...props}
+                    />
+                  ),
+
+                  li: ({ node, ...props }) => (
+                    <li
+                      className="ml-4 list-disc marker:text-blue-500"
+                      {...props}
+                    />
+                  )
+                }}
+              >
+                {content}
+              </Markdown>
+            </div>
           </div>
         )}
       </div>
     </div>
   );
 };
+
+export const Editor = React.memo(EditorComponent);
