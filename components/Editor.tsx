@@ -23,8 +23,6 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   };
 
   const statusText = useMemo(() => {
-    if (isSaving) return "Saving...";
-
     const date = new Date();
     return `Saved ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
 
@@ -79,7 +77,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
 export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDeleteNote">> = ({ note, onUpdateNote, onDeleteNote }) => {
   const [content, setContent] = useState(note.content);
   const [isSaving, setIsSaving] = useState(false);
-  const [lastSavedAt, setLastSavedAt] = useState(note.updatedAt);
+  const [_, setLastSavedAt] = useState(note.updatedAt);
   const [isEditing, setIsEditing] = useState(true);
 
   useEffect(() => {
@@ -114,7 +112,7 @@ export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDel
   };
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement> | KeyboardEvent) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "s" && isEditing) {
+    if ((e.code === "KeyS" && e.shiftKey) && isEditing) {
       e.preventDefault();
       setIsSaving(true);
       debouncedSave.cancel();
