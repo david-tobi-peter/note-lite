@@ -32,7 +32,6 @@ export interface EditorProps {
   onUpdateNote: (updates: Partial<Note>) => void;
   onDeleteNote: (id: string) => void;
   isSaving: boolean;
-  lastSavedAt: string;
   isEditing: boolean;
   setIsEditing: (isEditing: boolean | ((prev: boolean) => boolean)) => void;
 }

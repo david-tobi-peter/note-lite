@@ -13,29 +13,17 @@ export const useNotes = (): UseNotesResult => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    try {
-      const storedNotes = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (storedNotes) {
-        const parsedNotes = JSON.parse(storedNotes) as Note[];
-        const sortedNotes = parsedNotes.sort(
-          (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-        setNotes(sortedNotes);
+    const storedNotes = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedNotes) {
+      const parsedNotes = JSON.parse(storedNotes) as Note[];
+      const sortedNotes = parsedNotes.sort(
+        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      );
+      setNotes(sortedNotes);
 
-        if (sortedNotes.length > 0) {
-          setActiveNoteId(sortedNotes[0].id);
-        }
-      } else {
-        const firstNote = createNewNote();
-
-        setNotes([firstNote]);
-        setActiveNoteId(firstNote.id);
+      if (sortedNotes.length > 0) {
+        setActiveNoteId(sortedNotes[0].id);
       }
-    } catch (error) {
-      console.error("Could not load notes from localStorage:", error);
-      const firstNote = createNewNote();
-      setNotes([firstNote]);
-      setActiveNoteId(firstNote.id);
     }
   }, []);
 

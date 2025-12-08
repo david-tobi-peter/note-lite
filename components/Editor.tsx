@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Archive, Trash2, Save, Sparkles, Eye, Pencil } from "lucide-react";
+import { Trash2, Save, Eye, Pencil } from "lucide-react";
 import { EditorProps, Note } from "../lib/interfaces";
 import { debounce, renderMarkdown } from "@/lib";
 
@@ -9,7 +9,7 @@ interface EditorTopBarProps extends Omit<EditorProps, "onUpdateNote" | "onDelete
   onDeleteNote: (id: string) => void;
 }
 
-const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDeleteNote, isSaving, lastSavedAt, isEditing, setIsEditing }) => {
+const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDeleteNote, isSaving, isEditing, setIsEditing }) => {
   const [localTitle, setLocalTitle] = useState(note.title);
 
   useEffect(() => {
@@ -25,13 +25,10 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   const statusText = useMemo(() => {
     if (isSaving) return "Saving...";
 
-    if (lastSavedAt) {
-      const date = new Date(lastSavedAt);
-      return `Saved ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-    }
+    const date = new Date();
+    return `Saved ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
 
-    return "Unsaved changes..."
-  }, [isSaving, lastSavedAt]);
+  }, [isSaving]);
 
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-10">
@@ -142,7 +139,6 @@ export const Editor: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onDel
         onUpdateNote={onUpdateNote}
         onDeleteNote={onDeleteNote}
         isSaving={isSaving}
-        lastSavedAt={lastSavedAt.toString()}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
       />
