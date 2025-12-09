@@ -23,7 +23,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
     onUpdateNote({ title: newTitle });
   };
 
-  const statusText = useMemo(() => {
+  const savedAt = useMemo(() => {
     const date = new Date();
     return `Saved ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
 
@@ -37,14 +37,15 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
         value={localTitle}
         onChange={handleTitleChange}
         placeholder="Untitled Note"
-        className="text-xl md:text-2xl font-bold bg-transparent focus:outline-none flex-1 truncate dark:text-white disabled:text-gray-600 dark:disabled:text-gray-400"
+        className="text-xl md:text-2xl font-bold bg-transparent focus:outline-none flex-1 min-w-0 truncate dark:text-white disabled:text-gray-600 dark:disabled:text-gray-400"
         disabled={!isEditing}
+        autoComplete="off"
         aria-label="Note Title"
       />
       <div className="flex items-center space-x-2 md:space-x-4 ml-4 text-sm text-gray-500 dark:text-gray-400">
         <span className={`transition-opacity duration-300 hidden sm:inline ${isSaving ? 'opacity-100' : 'opacity-70'}`}>
           <Save className={`w-4 h-4 inline mr-1 ${isSaving ? 'animate-pulse text-blue-500' : ''}`} />
-          {statusText}
+          {savedAt}
         </span>
 
         <button

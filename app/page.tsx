@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Archive, Menu, Plus, Sparkles } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
 import { useNotes } from "@/hooks";
