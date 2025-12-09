@@ -92,11 +92,8 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
   }, [note.id, note.content, note.updatedAt]);
 
   const debouncedSave = useMemo(() => debounce((newContent: string) => {
-    const newTitle = newContent.split('\n')[0].replace(/#|__|^\s*-\s*|^\s*\*/g, '').trim() || "Untitled Note";
-
     onUpdateNote({
       content: newContent,
-      title: newTitle
     });
 
     setIsSaving(false);
