@@ -84,62 +84,71 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setSearchTerm
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
-
   const desktopWidthClass = isDesktopCollapsed ? "md:w-16" : "md:w-72";
 
   useBodyScrollLock(isMobile && isSidebarOpen);
 
   return (
-    <div className={`fixed top-0 left-0 h-full z-30 transition-all duration-30 ease-in-out
-    w-full sm:w-80 md:relative md:translate-x-0
-    ${desktopWidthClass} 
-    bg-white dark:bg-gray-800 shadow-xl md:shadow-none border-r border-gray-200 dark:border-gray-700
-    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-
+    <div
+      className={`
+        fixed top-0 left-0 h-full z-30 transition-all duration-300 ease-in-out
+        w-full sm:w-80 md:relative md:translate-x-0
+        ${desktopWidthClass}
+        bg-white dark:bg-gray-800 shadow-xl md:shadow-none
+        border-r border-gray-200 dark:border-gray-700
+        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+      `}
+    >
       <div className="flex flex-col h-full">
-        {isMobile && isSidebarOpen && (
-          <div className="flex justify-end p-2 md:hidden">
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
-              aria-label="Close Sidebar"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        )}
 
-        {(!isDesktopCollapsed || isMobile) && (
-          <SidebarHeader
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            onNewNote={() => {
-              onNewNote();
-              if (isMobile) setIsSidebarOpen(false);
-            }}
-            isDesktopCollapsed={isDesktopCollapsed}
-            handleToggleCollapse={handleToggleCollapse}
-          />
-        )}
+        <div className="sticky top-0 z-20 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
-        {isDesktopCollapsed && !isMobile && (
-          <div className="p-3 flex justify-end items-center border-b border-gray-200 dark:border-gray-700">
-            <button
-              onClick={handleToggleCollapse}
-              className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle Sidebar"
-            >
-              <ChevronsRight className="w-5 h-5" />
-            </button>
-          </div>
-        )}
+          {isMobile && isSidebarOpen && (
+            <div className="flex justify-end p-2 md:hidden">
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+
+          {(!isDesktopCollapsed || isMobile) && (
+            <SidebarHeader
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              onNewNote={() => {
+                onNewNote();
+                if (isMobile) setIsSidebarOpen(false);
+              }}
+              isDesktopCollapsed={isDesktopCollapsed}
+              handleToggleCollapse={handleToggleCollapse}
+            />
+          )}
+
+          {isDesktopCollapsed && !isMobile && (
+            <div className="p-3 flex justify-end items-center">
+              <button
+                onClick={handleToggleCollapse}
+                className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <ChevronsRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+        </div>
 
         <div className="overflow-y-auto flex-1 pb-4">
           {notes.length === 0 && (
-            <p className={`p-4 text-center text-sm text-gray-500 dark:text-gray-400 ${isDesktopCollapsed ? "hidden" : "block"}`}>
+            <p
+              className={`p-4 text-center text-sm text-gray-500 dark:text-gray-400 ${isDesktopCollapsed ? "hidden" : "block"
+                }`}
+            >
               No notes found.
             </p>
           )}
+
           {notes.map((note) => (
             <NoteListItem
               key={note.id}
@@ -155,5 +164,5 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

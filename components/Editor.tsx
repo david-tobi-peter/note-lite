@@ -142,17 +142,19 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
-      <EditorTopBar
-        note={note}
-        onUpdateNote={onUpdateNote}
-        onDeleteNote={onDeleteNote}
-        isSaving={isSaving}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        theme={theme}
-        toggleTheme={toggleTheme}
-      />
+    <div className="flex flex-col h-full">
+      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900">
+        <EditorTopBar
+          note={note}
+          onUpdateNote={onUpdateNote}
+          onDeleteNote={onDeleteNote}
+          isSaving={isSaving}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          theme={theme}
+          toggleTheme={toggleTheme}
+        />
+      </div>
       {isEditing
         ?
         <div className="flex-1 p-4 md:p-8">
@@ -169,7 +171,7 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
 
         : (
           <div
-            className="flex-1 p-4 md:p-8 w-full h-full break-words prose dark:prose-invert max-w-none transition-all duration-300 overflow-y-auto"
+            className="flex-1 p-4 md:p-8 w-full h-full break-words prose dark:prose-invert max-w-none transition-all duration-300"
           >
             <Markdown
               remarkPlugins={[remarkGfm]}
