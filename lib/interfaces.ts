@@ -18,6 +18,7 @@ export interface SidebarProps {
   handleToggleCollapse: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  isMobile: boolean;
 }
 
 export interface NoteListItemProps {

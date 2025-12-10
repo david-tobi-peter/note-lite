@@ -1,12 +1,11 @@
 "use client";
 
-import { Archive, Menu, Moon, Plus, Sparkles, Sun } from "lucide-react";
+import { Archive, Moon, Plus, Sparkles, Sun } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
 import { useNotes, useTheme, useMediaQuery } from "@/hooks";
 
 export default function Home() {
   const isMobile = useMediaQuery("(max-width: 767px)");
-
   const { theme, toggleTheme } = useTheme();
 
   const {
@@ -26,27 +25,22 @@ export default function Home() {
     filteredNotes,
   } = useNotes();
 
+  // Empty state
   if (notes.length === 0 && activeNoteId === null) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4">
+        {/* Theme toggle */}
         <button
           onClick={toggleTheme}
           className="fixed top-6 right-6 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all hover:scale-105 z-50 cursor-pointer"
           aria-label={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
         >
-          {theme === 'dark' ? (
-            <Sun className="w-5 h-5 text-yellow-500" />
-          ) : (
-            <Moon className="w-5 h-5 text-gray-700" />
-          )}
+          {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-gray-700" />}
         </button>
+
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
-            Note-Lite
-          </h1>
-          <p className="text-lg text-gray-500 dark:text-gray-400">
-            Your clean, minimal note space.
-          </p>
+          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">Note-Lite</h1>
+          <p className="text-lg text-gray-500 dark:text-gray-400">Your clean, minimal note space.</p>
         </div>
 
         <div className="flex flex-col items-center space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-sm">
@@ -70,13 +64,13 @@ export default function Home() {
             </p>
           )}
         </div>
-
       </div>
     );
   }
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans relative">
+      {/* Sidebar */}
       <Sidebar
         notes={filteredNotes}
         activeNoteId={activeNoteId}
@@ -88,24 +82,17 @@ export default function Home() {
         handleToggleCollapse={handleToggleCollapse}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        isMobile={isMobile}
       />
 
+      {/* Editor / Main content */}
       <div className="flex-1 flex flex-col relative min-w-0">
-        {!isSidebarOpen && !isDesktopCollapsed && (
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="md:hidden absolute top-4 left-4 z-20 p-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-            aria-label="Open Sidebar cursor-pointer"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-        )}
-
         {activeNote ? (
           <Editor
             note={activeNote}
             onUpdateNote={handleUpdateNote}
-            onDeleteNote={handleDeleteNote} />
+            onDeleteNote={handleDeleteNote}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center flex-1 p-8 text-center bg-gray-100 dark:bg-gray-800">
             <Archive className="w-16 h-16 text-gray-400 mb-4" />
@@ -123,6 +110,7 @@ export default function Home() {
         )}
       </div>
 
+      {/* Mobile overlay */}
       {isSidebarOpen && isMobile && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
@@ -131,4 +119,4 @@ export default function Home() {
       )}
     </div>
   );
-};
+}
