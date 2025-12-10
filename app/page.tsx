@@ -113,7 +113,7 @@ export default function Home() {
             </p>
             <button
               onClick={handleNewNote}
-              className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center"
+              className="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center cursor-pointer"
             >
               <Sparkles className="w-4 h-4 mr-2" /> Start Fresh Note (Shift+N)
             </button>

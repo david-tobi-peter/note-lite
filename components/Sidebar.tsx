@@ -1,5 +1,5 @@
-import React, { useMemo, useEffect } from "react";
-import { Menu, Plus, Search, ChevronsLeft, ChevronsRight, X } from "lucide-react"
+import React from "react";
+import { Plus, Search, ChevronsLeft, ChevronsRight, X } from "lucide-react"
 import { NoteListItemProps, SidebarProps } from "@/lib";
 import { useBodyScrollLock, useMediaQuery } from "@/hooks";
 
