@@ -2,10 +2,10 @@
 
 import { Archive, Menu, Moon, Plus, Sparkles, Sun } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
-import { useNotes, useTheme } from "@/hooks";
+import { useNotes, useTheme, useMediaQuery } from "@/hooks";
 
 export default function Home() {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const { theme, toggleTheme } = useTheme();
 
@@ -64,9 +64,11 @@ export default function Home() {
             Start Now
           </button>
 
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            Tip: Use <span className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded text-gray-800 dark:text-gray-200">Shift+N</span> to create a note instantly.
-          </p>
+          {!isMobile && (
+            <p className="text-sm text-gray-400 dark:text-gray-500">
+              Tip: Use <span className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded text-gray-800 dark:text-gray-200">Shift+N</span> to create a note instantly.
+            </p>
+          )}
         </div>
 
       </div>
