@@ -101,8 +101,7 @@ export const useNotes = (): UseNotesResult => {
     return notes
       .filter(
         (note) =>
-          note.title.toLowerCase().includes(lowerCaseTerm) ||
-          note.content.toLowerCase().includes(lowerCaseTerm)
+          note.title.toLowerCase().includes(lowerCaseTerm)
       )
       .sort(
         (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()

@@ -116,11 +116,8 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
       setIsSaving(true);
       debouncedSave.cancel();
 
-      const newTitle = content.split("\n")[0].replace(/#|__|^\s*-\s*|^\s*\*/g, "").trim() || "Untitled Note";
-
       onUpdateNote({
         content: content,
-        title: newTitle,
       });
       setIsSaving(false);
       setLastSavedAt(Date.now().toString());
@@ -137,8 +134,9 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
         isEditing={isEditing}
         setIsEditing={setIsEditing}
       />
-      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
-        {isEditing ? (
+      {isEditing
+        ?
+        <div className="flex-1 p-4 md:p-8">
           <textarea
             id="note-editor"
             value={content}
@@ -148,64 +146,63 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
             placeholder="Start typing your thoughts..."
             aria-label="Note Content Editor"
           />
-        ) : (
-          <div className="w-full h-full">
-            <div
-              className="prose dark:prose-invert max-w-none transition-all duration-300"
+        </div>
+
+        : (
+          <div
+            className="flex-1 p-4 md:p-8 w-full h-full break-words prose dark:prose-invert max-w-none transition-all duration-300 overflow-y-auto"
+          >
+            <Markdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ node, ...props }) => (
+                  <h1
+                    className="text-3xl font-extrabold mb-4 pt-4 dark:text-white"
+                    {...props}
+                  />
+                ),
+
+                h2: ({ node, ...props }) => (
+                  <h2
+                    className="text-2xl font-semibold mt-6 mb-3 dark:text-white"
+                    {...props}
+                  />
+                ),
+
+                h3: ({ node, ...props }) => (
+                  <h3 className="text-xl font-medium mt-4 mb-2 dark:text-white" {...props} />
+                ),
+
+                h4: ({ node, ...props }) => (
+                  <h4 className="text-lg font-normal mt-3 mb-1 dark:text-white" {...props} />
+                ),
+
+                blockquote: ({ node, ...props }) => (
+                  <blockquote
+                    className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-gray-100 dark:bg-gray-800 italic text-gray-600 dark:text-gray-300"
+                    {...props}
+                  />
+                ),
+
+                ul: ({ node, ...props }) => (
+                  <ul
+                    className="list-inside space-y-2 pl-4 text-gray-700 dark:text-gray-300"
+                    {...props}
+                  />
+                ),
+
+                li: ({ node, ...props }) => (
+                  <li
+                    className="ml-4 list-disc marker:text-blue-500"
+                    {...props}
+                  />
+                )
+              }}
             >
-              <Markdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h1: ({ node, ...props }) => (
-                    <h1
-                      className="text-3xl font-extrabold mb-4 pt-4 dark:text-white"
-                      {...props}
-                    />
-                  ),
-
-                  h2: ({ node, ...props }) => (
-                    <h2
-                      className="text-2xl font-semibold mt-6 mb-3 dark:text-white"
-                      {...props}
-                    />
-                  ),
-
-                  h3: ({ node, ...props }) => (
-                    <h3 className="text-xl font-medium mt-4 mb-2 dark:text-white" {...props} />
-                  ),
-
-                  h4: ({ node, ...props }) => (
-                    <h4 className="text-lg font-normal mt-3 mb-1 dark:text-white" {...props} />
-                  ),
-
-                  blockquote: ({ node, ...props }) => (
-                    <blockquote
-                      className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-gray-100 dark:bg-gray-800 italic text-gray-600 dark:text-gray-300"
-                      {...props}
-                    />
-                  ),
-
-                  ul: ({ node, ...props }) => (
-                    <ul
-                      className="list-inside space-y-2 pl-4 text-gray-700 dark:text-gray-300"
-                      {...props}
-                    />
-                  ),
-
-                  li: ({ node, ...props }) => (
-                    <li
-                      className="ml-4 list-disc marker:text-blue-500"
-                      {...props}
-                    />
-                  )
-                }}
-              >
-                {content}
-              </Markdown>
-            </div>
+              {content}
+            </Markdown>
           </div>
         )}
-      </div>
     </div>
   );
 };
