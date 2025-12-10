@@ -1,11 +1,13 @@
 "use client";
 
-import { Archive, Menu, Plus, Sparkles } from "lucide-react";
+import { Archive, Menu, Moon, Plus, Sparkles, Sun } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
-import { useNotes } from "@/hooks";
+import { useNotes, useTheme } from "@/hooks";
 
 export default function Home() {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const { theme, toggleTheme } = useTheme();
 
   const {
     notes,
@@ -27,6 +29,17 @@ export default function Home() {
   if (notes.length === 0 && activeNoteId === null) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4">
+        <button
+          onClick={toggleTheme}
+          className="fixed top-6 right-6 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all hover:scale-105 z-50 cursor-pointer"
+          aria-label={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-5 h-5 text-yellow-500" />
+          ) : (
+            <Moon className="w-5 h-5 text-gray-700" />
+          )}
+        </button>
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
             Note-Lite
@@ -44,7 +57,7 @@ export default function Home() {
 
           <button
             onClick={handleNewNote}
-            className="px-8 py-3 text-base font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center transform hover:scale-105"
+            className="px-8 py-3 text-base font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors shadow-lg active:shadow-none flex items-center transform hover:scale-105 cursor-pointer"
             aria-label="Create Your First Note"
           >
             <Plus className="w-5 h-5 mr-2" />
@@ -80,7 +93,7 @@ export default function Home() {
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="md:hidden absolute top-4 left-4 z-20 p-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-            aria-label="Open Sidebar"
+            aria-label="Open Sidebar cursor-pointer"
           >
             <Menu className="w-5 h-5" />
           </button>

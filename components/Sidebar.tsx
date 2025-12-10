@@ -20,7 +20,7 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
 
       <button
         onClick={handleToggleCollapse}
-        className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark: hover:bg-gray-700 transition-colors"
+        className="p-1 rounded-full text-gray-500 hover:bg-gray-100 dark: hover:bg-gray-700 transition-colors cursor-pointer"
         aria-label="Toggle Sidebar"
       >
         {
@@ -46,7 +46,7 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
       </div>
       <button
         onClick={onNewNote}
-        className="flex items-center justify-center w-full py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-md active:shadow-none"
+        className="flex items-center justify-center w-full py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-md active:shadow-none cursor-pointer"
       >
         <Plus className="w-4 h-4 mr-2" />
       </button>
@@ -56,7 +56,7 @@ const SidebarHeader: React.FC<PickedSidebarFields> = ({
 
 const NoteListItem: React.FC<NoteListItemProps> = React.memo(({ note, isActive, onClick, isCollapsed }) => (
   <div
-    className={`flex items-center p-3 cursor-pointer rounded-lg mx-2 my-1 transition-colors 
+    className={`flex items-center p-3 rounded-lg mx-2 my-1 hover:shadow-lg transition-all cursor-pointer
     ${isActive
         ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold"
         : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"

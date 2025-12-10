@@ -59,3 +59,5 @@ export interface UseNotesResult {
   setSearchTerm: (term: string) => void;
   filteredNotes: Note[];
 }
+
+export type Theme = "light" | "dark";

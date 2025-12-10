@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Trash2, Save, Eye, Pencil } from "lucide-react";
-import { debounce, EditorProps, Note } from "@/lib";
+import { Trash2, Save, Eye, Pencil, Sun, Moon } from "lucide-react";
+import { debounce, EditorProps, Note, Theme } from "@/lib";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useTheme } from "@/hooks";
 
 interface EditorTopBarProps extends Omit<EditorProps, "onUpdateNote" | "onDeleteNote" | "note"> {
   note: Note;
   onUpdateNote: (updates: Partial<Note>) => void;
   onDeleteNote: (id: string) => void;
+  theme: Theme;
+  toggleTheme: () => void;
 }
 
-const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDeleteNote, isSaving, isEditing, setIsEditing }) => {
+const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDeleteNote, isSaving, isEditing, setIsEditing, theme, toggleTheme }) => {
   const [localTitle, setLocalTitle] = useState(note.title);
 
   useEffect(() => {
@@ -49,8 +52,20 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
         </span>
 
         <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+          aria-label={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-yellow-500" />
+          ) : (
+            <Moon className="w-4 h-4 text-gray-600" />
+          )}
+        </button>
+
+        <button
           onClick={() => setIsEditing(prev => !prev)}
-          className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center transition-colors dark:text-gray-200"
+          className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center transition-colors dark:text-gray-200 cursor-pointer"
           aria-label={isEditing ? 'Switch to Preview Mode' : 'Switch to Edit Mode'}
         >
           {isEditing ? (
@@ -66,7 +81,7 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
 
         <button
           onClick={() => onDeleteNote(note.id)}
-          className="p-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          className="p-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
           aria-label="Delete Note"
         >
           <Trash2 className="w-5 h-5" />
@@ -124,6 +139,8 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
     }
   }, [content, onUpdateNote, debouncedSave, isEditing]);
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <EditorTopBar
@@ -133,6 +150,8 @@ const EditorComponent: React.FC<Pick<EditorProps, "note" | "onUpdateNote" | "onD
         isSaving={isSaving}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
       {isEditing
         ?
