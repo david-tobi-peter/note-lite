@@ -29,7 +29,6 @@ const EditorTopBar: React.FC<EditorTopBarProps> = ({ note, onUpdateNote, onDelet
   const savedAt = useMemo(() => {
     const date = new Date();
     return `Saved ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-
   }, [isSaving]);
 
   return (
