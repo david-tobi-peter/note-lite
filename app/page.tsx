@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, Moon, Plus, Sparkles, Sun } from "lucide-react";
+import { Archive, Menu, Moon, Plus, Sparkles, Sun } from "lucide-react";
 import { Sidebar, Editor } from "@/components";
 import { useNotes, useTheme, useMediaQuery } from "@/hooks";
 
@@ -25,17 +25,34 @@ export default function Home() {
     filteredNotes,
   } = useNotes();
 
-  // Empty state
+  const renderMobileMenuButton = () => {
+    if (!isSidebarOpen && isMobile) {
+      return (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="fixed top-4 left-4 z-30 p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+          aria-label="Open Sidebar"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      );
+    }
+    return null;
+  };
+
   if (notes.length === 0 && activeNoteId === null) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4">
-        {/* Theme toggle */}
         <button
           onClick={toggleTheme}
           className="fixed top-6 right-6 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all hover:scale-105 z-50 cursor-pointer"
-          aria-label={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+          aria-label={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
         >
-          {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-gray-700" />}
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5 text-yellow-500" />
+          ) : (
+            <Moon className="w-5 h-5 text-gray-700" />
+          )}
         </button>
 
         <div className="mb-8 text-center">
@@ -60,7 +77,11 @@ export default function Home() {
 
           {!isMobile && (
             <p className="text-sm text-gray-400 dark:text-gray-500">
-              Tip: Use <span className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded text-gray-800 dark:text-gray-200">Shift+N</span> to create a note instantly.
+              Tip: Use{" "}
+              <span className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded text-gray-800 dark:text-gray-200">
+                Shift+N
+              </span>{" "}
+              to create a note instantly.
             </p>
           )}
         </div>
@@ -70,7 +91,6 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans relative">
-      {/* Sidebar */}
       <Sidebar
         notes={filteredNotes}
         activeNoteId={activeNoteId}
@@ -85,14 +105,11 @@ export default function Home() {
         isMobile={isMobile}
       />
 
-      {/* Editor / Main content */}
       <div className="flex-1 flex flex-col relative min-w-0">
+        {renderMobileMenuButton()}
+
         {activeNote ? (
-          <Editor
-            note={activeNote}
-            onUpdateNote={handleUpdateNote}
-            onDeleteNote={handleDeleteNote}
-          />
+          <Editor note={activeNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
         ) : (
           <div className="flex flex-col items-center justify-center flex-1 p-8 text-center bg-gray-100 dark:bg-gray-800">
             <Archive className="w-16 h-16 text-gray-400 mb-4" />
@@ -110,7 +127,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Mobile overlay */}
       {isSidebarOpen && isMobile && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"

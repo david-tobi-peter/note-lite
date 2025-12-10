@@ -13,17 +13,17 @@ const SidebarHeader: React.FC<
 > = ({ searchTerm, setSearchTerm, onNewNote, isDesktopCollapsed, handleToggleCollapse, isMobile, isSidebarOpen, setIsSidebarOpen }) => (
   <>
     <div className="p-3 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30 bg-white dark:bg-gray-800">
+      {!isDesktopCollapsed && <h1 className="text-xl font-bold dark:text-white ml-2">Note-Lite</h1>}
+
       {isMobile && (
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow"
+          className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
           aria-label={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
         >
           {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       )}
-
-      {!isDesktopCollapsed && <h1 className="text-xl font-bold dark:text-white ml-2">Note-Lite</h1>}
 
       {!isMobile && (
         <div className="ml-auto flex justify-end w-full">
