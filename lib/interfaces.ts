@@ -62,3 +62,6 @@ export interface UseNotesResult {
 }
 
 export type Theme = "light" | "dark";
+
+export const LOCAL_STORAGE_KEY = "notion-lite-notes";
+export const COLLAPSE_KEY = "isDesktopCollapsed";

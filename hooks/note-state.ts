@@ -1,9 +1,9 @@
 import { COLLAPSE_KEY, createNewNote, LOCAL_STORAGE_KEY, Note, UseNotesResult } from "@/lib";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
-
 export const useNotes = (): UseNotesResult => {
+  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
+
   const [notes, setNotes] = useState<Note[]>([]);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(isDesktop);

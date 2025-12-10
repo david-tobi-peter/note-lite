@@ -24,9 +24,6 @@ export const debounce = <T extends (...args: any[]) => any>(
   return debounced as DebouncedFunction<T>;
 };
 
-export const LOCAL_STORAGE_KEY = "notion-lite-notes";
-export const COLLAPSE_KEY = "isDesktopCollapsed";
-
 export const createNewNote = (): Note => ({
   id: v4(),
   title: "Untitled Note",
